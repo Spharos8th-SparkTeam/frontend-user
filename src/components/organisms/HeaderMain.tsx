@@ -79,9 +79,9 @@ export function HeaderMain({
 
     return (
         <div>
-            <div className="flex h-14 items-center gap-2">
+            <div className="flex h-16 items-center gap-2">
                 <Logo />
-                <div className="hidden min-w-0 max-w-md flex-1 md:block">
+                <div className="hidden min-w-0 max-w-xl flex-1 xl:block">
                     <SearchForm id={desktopSearchId} {...searchFormProps} />
                 </div>
                 <div className="ml-auto flex items-center gap-1">
@@ -93,7 +93,12 @@ export function HeaderMain({
                         href={notificationHref}
                         onClick={onNotificationClick}
                     />
-                    <IconButtonWithBadge icon="chat" count={chatCount} label={chatLabel} href={chatHref} />
+                    <IconButtonWithBadge
+                        icon="chat"
+                        count={chatCount}
+                        label={chatLabel}
+                        href={chatHref}
+                    />
                     <UserMenuButton name={userName} onClick={onUserMenuClick} />
                     <LanguageSelect
                         id={languageId}

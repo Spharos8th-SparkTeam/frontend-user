@@ -15,8 +15,13 @@ function getEffectiveLikeCount(product: Product, wishedIds: ReadonlySet<string>)
     return product.likes + (wishedIds.has(product.id) ? 1 : 0);
 }
 
-function compareByPopularity(left: Product, right: Product, wishedIds: ReadonlySet<string>): number {
-    const likeGap = getEffectiveLikeCount(right, wishedIds) - getEffectiveLikeCount(left, wishedIds);
+function compareByPopularity(
+    left: Product,
+    right: Product,
+    wishedIds: ReadonlySet<string>,
+): number {
+    const likeGap =
+        getEffectiveLikeCount(right, wishedIds) - getEffectiveLikeCount(left, wishedIds);
 
     if (likeGap !== 0) {
         return likeGap;
@@ -35,7 +40,10 @@ export function getHomeCatalog(): Product[] {
     return PRODUCT_MOCK_LIST;
 }
 
-export function getPopularProductList(products: Product[], wishedIds: ReadonlySet<string>): Product[] {
+export function getPopularProductList(
+    products: Product[],
+    wishedIds: ReadonlySet<string>,
+): Product[] {
     return products
         .filter((product) => product.saleStatus !== SALE_STATUS.SOLD)
         .sort((left, right) => compareByPopularity(left, right, wishedIds))

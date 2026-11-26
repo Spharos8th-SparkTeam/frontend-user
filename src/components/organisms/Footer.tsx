@@ -12,7 +12,6 @@ type FooterProps = {
     groups: FooterGroup[];
     supportTitle: string;
     supportLinks: FooterLink[];
-    phone: string;
     hours: string;
     email: string;
     companyLines: string[];
@@ -23,17 +22,19 @@ export function Footer({
     groups,
     supportTitle,
     supportLinks,
-    phone,
     hours,
     email,
     companyLines,
 }: FooterProps) {
     return (
-        <footer className="mt-auto border-t border-[#E7DFD6] bg-[#FBF7F3]">
+        <footer className="mt-auto border-t border-[#E7DFD6] bg-[#FFF9F4]">
             <div className="mx-auto grid max-w-6xl gap-10 px-4 py-12 sm:px-6 md:grid-cols-2 lg:grid-cols-4">
                 <div>
                     <Logo />
-                    <Text variant="caption" className="mt-3 text-sm leading-6 tracking-normal text-[#6F675F]">
+                    <Text
+                        variant="caption"
+                        className="mt-3 text-sm leading-6 tracking-normal text-[#6F675F]"
+                    >
                         {description}
                     </Text>
                 </div>
@@ -42,13 +43,13 @@ export function Footer({
                 ))}
                 <div>
                     <FooterLinkGroup title={supportTitle} links={supportLinks} />
-                    <Text variant="price" className="mt-4 text-sm text-[#1C1917]">
-                        {phone}
-                    </Text>
-                    <Text variant="caption" className="mt-1 text-sm leading-6 tracking-normal text-[#6F675F]">
+                    <Text
+                        variant="caption"
+                        className="mt-12 text-sm leading-6 tracking-normal text-[#6F675F]"
+                    >
                         {hours}
                     </Text>
-                    <Text variant="caption" className="text-sm tracking-normal text-[#6F675F]">
+                    <Text variant="caption" className="mt-2 text-sm tracking-normal text-[#6F675F]">
                         {email}
                     </Text>
                 </div>

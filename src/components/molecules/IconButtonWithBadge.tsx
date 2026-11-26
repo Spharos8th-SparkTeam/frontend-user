@@ -3,14 +3,20 @@ import { Button } from "@/components/atoms/Button";
 import { Icon, type IconName } from "@/components/atoms/Icon";
 
 type IconButtonWithBadgeProps = {
-    icon: Extract<IconName, "bell" | "chat">;
+    icon: Extract<IconName, "bell" | "chat" | "language">;
     count: number;
     label: string;
     href?: string;
     onClick?: () => void;
 };
 
-export function IconButtonWithBadge({ icon, count, label, href, onClick }: IconButtonWithBadgeProps) {
+export function IconButtonWithBadge({
+    icon,
+    count,
+    label,
+    href,
+    onClick,
+}: IconButtonWithBadgeProps) {
     const accessibleName = count > 0 ? `${label} ${count}` : label;
 
     return (

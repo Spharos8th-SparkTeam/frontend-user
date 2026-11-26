@@ -9,7 +9,12 @@ import {
     getPopularProductList,
     getVisibleLikeCount,
 } from "@/features/product/api/GetHomeProductList";
-import { SALE_STATUS, formatUsd, type Product, type SaleStatus } from "@/features/product/model/Product";
+import {
+    SALE_STATUS,
+    formatUsd,
+    type Product,
+    type SaleStatus,
+} from "@/features/product/model/Product";
 import { translate, type LocaleId } from "@/shared/config/Locale";
 import type { SaleBadgeStatus } from "@/components/atoms/Badge";
 
@@ -28,11 +33,15 @@ export function HomePage({ products }: HomePageProps) {
     const [wishedIdList, setWishedIdList] = useState<string[]>([]);
     const wishedIds = useMemo(() => new Set(wishedIdList), [wishedIdList]);
     const popularProducts = useMemo(
-        () => getPopularProductList(products, wishedIds).map((product) => toSectionItem(product, wishedIds, locale)),
+        () =>
+            getPopularProductList(products, wishedIds).map((product) =>
+                toSectionItem(product, wishedIds, locale),
+            ),
         [locale, products, wishedIds],
     );
     const newProducts = useMemo(
-        () => getNewProductList(products).map((product) => toSectionItem(product, wishedIds, locale)),
+        () =>
+            getNewProductList(products).map((product) => toSectionItem(product, wishedIds, locale)),
         [locale, products, wishedIds],
     );
 

@@ -7,7 +7,6 @@ import { Header } from "@/components/organisms/Header";
 import { searchProductSuggestionList } from "@/features/product/api/GetHomeProductList";
 import { CATEGORY_LIST, formatUsd, getCategoryHref } from "@/features/product/model/Product";
 import { LOCALE_LIST, translate, type LocaleId } from "@/shared/config/Locale";
-import type { TradeRole } from "@/components/molecules/RoleToggle";
 
 const PageLocaleContext = createContext<LocaleId>("ko");
 
@@ -23,7 +22,6 @@ export function MainTemplate({ children }: MainTemplateProps) {
     const router = useRouter();
     const pathname = usePathname();
     const [locale, setLocale] = useState<LocaleId>("ko");
-    const [role, setRole] = useState<TradeRole>("buyer");
     const [query, setQuery] = useState("");
     const [suggestionsOpen, setSuggestionsOpen] = useState(false);
     const suggestions = useMemo(
@@ -54,14 +52,9 @@ export function MainTemplate({ children }: MainTemplateProps) {
 
     return (
         <PageLocaleContext.Provider value={locale}>
-            <div className="flex min-h-full flex-col bg-[#F6F1EB] text-[#1C1917]">
+            <div className="flex min-h-full flex-col bg-[#FFF9F4] text-[#1C1917]">
                 <Header
                     bannerMessage={translate(locale, "banner")}
-                    roleLabel={translate(locale, "roleGroup")}
-                    role={role}
-                    buyerLabel={translate(locale, "roleBuyer")}
-                    sellerLabel={translate(locale, "roleSeller")}
-                    onRoleChange={setRole}
                     searchLabel={translate(locale, "search")}
                     searchValue={query}
                     searchPlaceholder={translate(locale, "searchPlaceholder")}
@@ -89,7 +82,10 @@ export function MainTemplate({ children }: MainTemplateProps) {
                     languageId="home-language"
                     languageLabel={translate(locale, "language")}
                     language={locale}
-                    languageOptions={LOCALE_LIST.map((item) => ({ value: item.id, label: item.label }))}
+                    languageOptions={LOCALE_LIST.map((item) => ({
+                        value: item.id,
+                        label: item.label,
+                    }))}
                     onLanguageChange={(value) => setLocale(value as LocaleId)}
                     categoryLabel={translate(locale, "categoryNav")}
                     categories={CATEGORY_LIST.map((category) => {
@@ -105,14 +101,12 @@ export function MainTemplate({ children }: MainTemplateProps) {
                     description={translate(locale, "footerTagline")}
                     groups={[
                         {
-                            title: translate(locale, "sell"),
+                            title: translate(locale, "categoryNav"),
                             links: [
                                 ...CATEGORY_LIST.map((category) => ({
                                     href: getCategoryHref(category.label),
                                     label: category.label,
                                 })),
-                                { href: "/sell", label: translate(locale, "sell") },
-                                { href: "/prohibited", label: translate(locale, "prohibited") },
                             ],
                         },
                         {
@@ -121,8 +115,8 @@ export function MainTemplate({ children }: MainTemplateProps) {
                                 { href: "/legal/terms", label: translate(locale, "terms") },
                                 { href: "/legal/privacy", label: translate(locale, "privacy") },
                                 { href: "/legal/youth", label: translate(locale, "youth") },
-                                { href: "/membership", label: "Spark VIP" },
-                                { href: "/orders", label: translate(locale, "orders") },
+                                // { href: "/membership", label: "Spark VIP" },
+                                // { href: "/orders", label: translate(locale, "orders") },
                             ],
                         },
                     ]}
@@ -134,7 +128,6 @@ export function MainTemplate({ children }: MainTemplateProps) {
                         { href: "/support/inquiries", label: "문의하기" },
                         { href: "/support/events", label: "이벤트" },
                     ]}
-                    phone="1588-0427"
                     hours="평일 10:00–18:00"
                     email="help@spark.market"
                     companyLines={[

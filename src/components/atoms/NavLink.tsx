@@ -13,9 +13,9 @@ export function NavLink({ href, children, current = false, className = "" }: Nav
         <Link
             href={href}
             aria-current={current ? "page" : undefined}
-            className={`text-sm ${
+            className={`text-sm font-semibold ${
                 className ||
-                (current ? "font-semibold text-[#1C1917]" : "text-[#6F675F] hover:text-[#1C1917]")
+                (current ? "text-[#1C1917]" : "text-[#6F675F] hover:text-[#1C1917]")
             }`}
         >
             {children}

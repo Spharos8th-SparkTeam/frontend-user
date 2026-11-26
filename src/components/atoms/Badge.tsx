@@ -31,7 +31,9 @@ export function Badge(props: BadgeProps) {
     }
 
     return (
-        <span className={`inline-flex rounded-full px-2 py-0.5 text-xs font-medium ${STATUS_CLASS[props.status]}`}>
+        <span
+            className={`inline-flex rounded-full px-2 py-0.5 text-xs font-medium ${STATUS_CLASS[props.status]}`}
+        >
             {props.label}
         </span>
     );

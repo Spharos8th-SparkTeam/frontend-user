@@ -6,5 +6,5 @@ type ProductMetaProps = {
 };
 
 export function ProductMeta({ category, country }: ProductMetaProps) {
-    return <Text variant="category">{`${category} · ${country}`}</Text>;
+    return <Text variant="catalog">{`${category} · ${country}`}</Text>;
 }

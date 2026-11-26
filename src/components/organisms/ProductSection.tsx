@@ -18,7 +18,6 @@ type ProductSectionProps = {
 
 export function ProductSection({
     title,
-    description,
     href,
     actionLabel,
     emptyLabel,
@@ -28,9 +27,6 @@ export function ProductSection({
     return (
         <section>
             <SectionHeader title={title} href={href} actionLabel={actionLabel} />
-            <Text variant="caption" className="mt-1 text-sm tracking-normal text-[#6F675F]">
-                {description}
-            </Text>
             {products.length === 0 ? (
                 <Text variant="caption" className="mt-4 text-sm tracking-normal text-[#8A8178]">
                     {emptyLabel}

@@ -37,8 +37,8 @@ export function ProductCard({
     onToggleWish,
 }: ProductCardProps) {
     return (
-        <article className="relative flex h-full flex-col rounded-[28px] bg-white p-3 shadow-[0_10px_30px_rgba(90,60,30,0.06)]">
-            <Link href={href} className="flex h-full flex-col gap-2">
+        <article className="relative flex h-full flex-col rounded-[28px] p-0.5">
+            <Link href={href} className="flex h-full flex-col gap-3">
                 <Image src={imageSrc} alt={imageAlt} />
                 <ProductMeta category={category} country={country} />
                 <p className="line-clamp-2 text-sm font-medium leading-5 text-[#1C1917]">{title}</p>
@@ -47,7 +47,12 @@ export function ProductCard({
                 </div>
             </Link>
             <div className="absolute right-2 top-2">
-                <WishButton wished={wished} count={wishCount} label={wishLabel} onToggle={onToggleWish} />
+                <WishButton
+                    wished={wished}
+                    count={wishCount}
+                    label={wishLabel}
+                    onToggle={onToggleWish}
+                />
             </div>
         </article>
     );

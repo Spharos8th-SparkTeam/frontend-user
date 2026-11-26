@@ -14,10 +14,16 @@ export function WishButton({ wished, count, label, onToggle }: WishButtonProps) 
             variant="ghost"
             ariaLabel={label}
             onClick={onToggle}
-            className="gap-1 rounded-full bg-white px-2 py-1 shadow-[0_4px_12px_rgba(70,40,20,0.08)]"
+            className="gap-1 rounded-full bg-white/90 px-2 py-1 shadow-[0_4px_12px_rgba(70,40,20,0.08)]"
         >
-            <Icon name="heart" filled={wished} className={wished ? "h-4 w-4 text-[#E07A7A]" : "h-4 w-4 text-[#8A8178]"} />
-            <span className="text-xs font-semibold tabular-nums">{count.toLocaleString("en-US")}</span>
+            <Icon
+                name="heart"
+                filled={wished}
+                className={wished ? "h-4 w-4 text-[#E07A7A]" : "h-4 w-4 text-[#8A8178]"}
+            />
+            <span className="text-xs font-semibold tabular-nums">
+                {count.toLocaleString("en-US")}
+            </span>
         </Button>
     );
 }

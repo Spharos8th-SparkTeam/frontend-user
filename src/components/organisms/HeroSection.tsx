@@ -15,7 +15,13 @@ type HeroSectionProps = {
     secondaryAction: HeroAction;
 };
 
-export function HeroSection({ eyebrow, title, description, primaryAction, secondaryAction }: HeroSectionProps) {
+export function HeroSection({
+    eyebrow,
+    title,
+    description,
+    primaryAction,
+    secondaryAction,
+}: HeroSectionProps) {
     return (
         <section className="mx-auto max-w-xl py-12 text-center sm:py-16">
             <Text variant="eyebrow">{eyebrow}</Text>

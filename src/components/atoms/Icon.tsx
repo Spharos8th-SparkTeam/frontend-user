@@ -1,4 +1,12 @@
-import { Bell, ChevronRight, Heart, MessageCircle, Search, type LucideIcon } from "lucide-react";
+import {
+    Bell,
+    ChevronRight,
+    Globe,
+    Heart,
+    MessageCircle,
+    Search,
+    type LucideIcon,
+} from "lucide-react";
 
 const ICON_MAP = {
     search: Search,
@@ -6,6 +14,7 @@ const ICON_MAP = {
     chat: MessageCircle,
     heart: Heart,
     arrow: ChevronRight,
+    language: Globe,
 } as const satisfies Record<string, LucideIcon>;
 
 export type IconName = keyof typeof ICON_MAP;
