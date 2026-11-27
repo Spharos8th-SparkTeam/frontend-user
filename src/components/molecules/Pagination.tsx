@@ -48,7 +48,7 @@ export function Pagination({
                 type="button"
                 disabled={page >= pageCount}
                 onClick={() => onPageChange(page + 1)}
-                className="px-2 text-sm text-[#8A8178] disabled:text-[#D9D0C7]"
+                className="px-2 text-sm text-[#49382F] disabled:text-[#49382F]"
             >
                 {nextLabel}
             </button>

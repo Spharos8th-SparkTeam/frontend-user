@@ -1,10 +1,9 @@
-import { CategoryNav, type CategoryNavItem } from "@/components/organisms/CategoryNav";
+import type { ReactNode } from "react";
 import { HeaderMain } from "@/components/organisms/HeaderMain";
 import type { SelectOption } from "@/components/atoms/Select";
 import type { SearchSuggestion } from "@/components/molecules/SearchForm";
 
 type HeaderProps = {
-    bannerMessage: string;
     searchLabel: string;
     searchValue: string;
     searchPlaceholder?: string;
@@ -32,21 +31,15 @@ type HeaderProps = {
     language: string;
     languageOptions: SelectOption[];
     onLanguageChange: (value: string) => void;
-    categoryLabel: string;
-    categories: CategoryNavItem[];
+    categoryNav: ReactNode;
 };
 
-export function Header({
-    bannerMessage,
-    categoryLabel,
-    categories,
-    ...main
-}: HeaderProps) {
+export function Header({ categoryNav, ...main }: HeaderProps) {
     return (
         <header className="sticky top-0 z-40 border-b border-[#EFE6DC] bg-[#FFF9F4]/80 backdrop-blur-md">
             <div className="mx-auto max-w-7xl px-4 sm:px-6">
                 <HeaderMain {...main} />
-                <CategoryNav label={categoryLabel} categories={categories} />
+                {categoryNav}
             </div>
         </header>
     );

@@ -1,9 +1,10 @@
 "use client";
 
-import { createContext, useContext, useMemo, useState, type ReactNode } from "react";
+import { createContext, Suspense, useContext, useMemo, useState, type ReactNode } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { Footer } from "@/components/organisms/Footer";
 import { Header } from "@/components/organisms/Header";
+import { CategoryNav } from "@/components/organisms/CategoryNav";
 import { searchProductSuggestionList } from "@/features/product/api/GetHomeProductList";
 import { CATEGORY_LIST, formatUsd, getCategoryHref } from "@/features/product/model/Product";
 import { LOCALE_LIST, translate, type LocaleId } from "@/shared/config/Locale";
@@ -18,9 +19,27 @@ type MainTemplateProps = {
     children: ReactNode;
 };
 
+function CategoryLinks({ label, pathname }: { label: string; pathname?: string }) {
+    return (
+        <CategoryNav
+            label={label}
+            categories={CATEGORY_LIST.map((category) => {
+                const href = getCategoryHref(category.label);
+
+                return { href, label: category.label, current: pathname === href };
+            })}
+        />
+    );
+}
+
+function CurrentCategoryLinks({ label }: { label: string }) {
+    const pathname = usePathname();
+
+    return <CategoryLinks label={label} pathname={pathname} />;
+}
+
 export function MainTemplate({ children }: MainTemplateProps) {
     const router = useRouter();
-    const pathname = usePathname();
     const [locale, setLocale] = useState<LocaleId>("ko");
     const [query, setQuery] = useState("");
     const [suggestionsOpen, setSuggestionsOpen] = useState(false);
@@ -54,7 +73,6 @@ export function MainTemplate({ children }: MainTemplateProps) {
         <PageLocaleContext.Provider value={locale}>
             <div className="flex min-h-full flex-col bg-[#FFF9F4] text-[#1C1917]">
                 <Header
-                    bannerMessage={translate(locale, "banner")}
                     searchLabel={translate(locale, "search")}
                     searchValue={query}
                     searchPlaceholder={translate(locale, "searchPlaceholder")}
@@ -87,12 +105,13 @@ export function MainTemplate({ children }: MainTemplateProps) {
                         label: item.label,
                     }))}
                     onLanguageChange={(value) => setLocale(value as LocaleId)}
-                    categoryLabel={translate(locale, "categoryNav")}
-                    categories={CATEGORY_LIST.map((category) => {
-                        const href = getCategoryHref(category.label);
-
-                        return { href, label: category.label, current: pathname === href };
-                    })}
+                    categoryNav={
+                        <Suspense
+                            fallback={<CategoryLinks label={translate(locale, "categoryNav")} />}
+                        >
+                            <CurrentCategoryLinks label={translate(locale, "categoryNav")} />
+                        </Suspense>
+                    }
                 />
                 <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-16 px-4 pb-20 sm:px-6">
                     {children}
