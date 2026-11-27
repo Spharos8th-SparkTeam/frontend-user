@@ -5,6 +5,8 @@ const VARIANT_CLASS = {
     primary: "bg-[#49382F] text-white hover:bg-[#3A332E]", // 판매하기
     secondary: "border border-[#E7DFD6] bg-white text-[#49382F] hover:bg-[#FBF7F3]", // 구매/판매 내역
     ghost: "text-[#49382F] hover:bg-white", // lucide 아이콘, 전체보기, 찜수, 미선택 토글
+    accent: "bg-[#BA5847] text-white hover:bg-[#D47B68]", // 매물 등록
+    accentOutline: "border border-[#49382F] bg-[#FFFDF5] text-[#49382F] hover:bg-white", // AI 분석 조회
 } as const;
 
 const SIZE_CLASS = {
