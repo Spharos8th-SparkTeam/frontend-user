@@ -1,0 +1,45 @@
+---
+description: Spring Boot 백엔드의 기능별 패키지 구조와 Layered Architecture 규칙
+globs:
+  - "src/main/java/**/*.java"
+alwaysApply: true
+---
+
+# Backend 패키지 구조 규칙
+
+## 기본 아키텍처
+- Spring Boot 백엔드는 기능별 패키지 구조를 기반으로 Layered Architecture를 적용한다.
+- 기능별 패키지 내부에 entity, dto, repository, service, controller를 배치한다.
+- 프로젝트 전체를 controller, service, repository 등 계층 기준으로만 분리하지 않는다.
+- 새로운 기능을 구현할 때 기존 패키지 구조와 네이밍을 우선 확인하고 동일한 패턴을 따른다.
+- 단순한 기능에 불필요한 클래스나 계층을 추가하지 않는다.
+
+## 기본 구조 (도메인 단위 패키지)
+도메인별로 최상위 패키지를 만들고, 그 안을 계층별로 나눈다.
+
+```
+{service}/src/main/java/.../{domain}/
+├── entity/
+├── dto/
+│   ├── request/
+│   └── response/
+├── repository/
+├── service/
+└── controller/
+```
+
+예) todo 도메인: `todo/entity/Todo.java`, `todo/dto/request/TodoCreateRequest.java`
+
+## 계층별 책임
+- entity: DB 테이블 매핑 객체. 비즈니스 규칙이 있으면 엔티티 메서드로 둔다.
+- dto/request: 요청 바디 매핑 + 검증 어노테이션. 클래스명은 `{행위}Request`.
+- dto/response: 응답 전용. 엔티티를 직접 반환하지 않는다. `{대상}Response`.
+- repository: DB 접근만 담당. 비즈니스 로직 금지.
+- service: 비즈니스 로직과 트랜잭션 경계. 컨트롤러에서 repository를 직접 호출하지 않는다.
+- controller: 요청/응답 변환과 service 호출만 담당.
+
+## 의존 방향
+controller → service → repository (역방향 참조 금지)
+
+## 금지 사항
+- entity를 controller 응답으로 직접 반환하지 않는다.
