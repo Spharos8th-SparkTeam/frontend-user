@@ -1,10 +1,17 @@
 import {
     Bell,
+    Bold,
     ChevronRight,
     Globe,
     Heart,
+    Italic,
+    Link2,
+    List,
+    ListOrdered,
     MessageCircle,
+    Plus,
     Search,
+    Underline,
     type LucideIcon,
 } from "lucide-react";
 
@@ -15,6 +22,13 @@ const ICON_MAP = {
     heart: Heart,
     arrow: ChevronRight,
     language: Globe,
+    plus: Plus,
+    bold: Bold,
+    italic: Italic,
+    underline: Underline,
+    list: List,
+    listOrdered: ListOrdered,
+    link: Link2,
 } as const satisfies Record<string, LucideIcon>;
 
 export type IconName = keyof typeof ICON_MAP;
