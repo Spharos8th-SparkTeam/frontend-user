@@ -42,11 +42,8 @@ alwaysApply: true
 - Branch는 Issue 생성 후 번호를 확인한 다음 생성한다.
 - Branch 이름은 `{type}/{issue-number}-{description}` 형식을 따른다.
 - Issue 번호는 실제 GitHub에서 부여된 번호와 일치해야 한다.
-
-예시:
-- `feature/2-signUp`
-- `fix/3-loginError`
-- `refactor/4-memberService`
+- 브랜치 종류는 `main`/`develop`/`feature` 이렇게 세가지로만 제한한다.
+- 이슈 종류가 여러가지여도 무조건 `feature` 브랜치로 생성한다.
 
 ### 4. Issue와 Branch 일관성
 
