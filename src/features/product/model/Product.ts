@@ -30,6 +30,15 @@ export const CATEGORY_LIST = [
 ] as const;
 
 export const HOME_PRODUCT_LIMIT = 5;
+export const CATEGORY_ALL_SLUG = "all";
+
+export function getCategoryBySlug(slug: string): { slug: string; label: string } | undefined {
+    if (slug === CATEGORY_ALL_SLUG) {
+        return { slug: CATEGORY_ALL_SLUG, label: "전체" };
+    }
+
+    return CATEGORY_LIST.find((item) => item.slug === slug);
+}
 
 export function formatUsd(amount: number): string {
     const rounded = Math.round(amount * 100) / 100;
