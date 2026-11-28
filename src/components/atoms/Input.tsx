@@ -8,7 +8,7 @@ type InputProps = {
     value: string;
     onChange: (value: string) => void;
     placeholder?: string;
-    type?: "text" | "search";
+    type?: "text" | "search" | "email" | "password";
     variant?: keyof typeof VARIANT_CLASS;
     required?: boolean;
     className?: string;
