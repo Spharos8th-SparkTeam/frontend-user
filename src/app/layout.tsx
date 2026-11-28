@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Noto_Sans_KR } from "next/font/google";
+import { MemberSessionProvider } from "@/features/auth/model/MemberSession";
 import "./globals.css";
 
 const notoSans = Noto_Sans_KR({
@@ -16,7 +17,9 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
     return (
         <html lang="ko" className={`${notoSans.variable} h-full antialiased`}>
-            <body className="flex min-h-full flex-col bg-[#FFF9F5] text-[#49382F]">{children}</body>
+            <body className="flex min-h-full flex-col bg-[#FFF9F5] text-[#49382F]">
+                <MemberSessionProvider>{children}</MemberSessionProvider>
+            </body>
         </html>
     );
 }

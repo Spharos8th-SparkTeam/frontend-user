@@ -4,8 +4,11 @@ import { createContext, Suspense, useContext, useMemo, useState, type ReactNode 
 import { usePathname, useRouter } from "next/navigation";
 import { Footer } from "@/components/organisms/Footer";
 import { Header } from "@/components/organisms/Header";
+import { LoginRequiredDialog } from "@/components/organisms/LoginRequiredDialog";
 import type { HeaderAccountActions } from "@/components/organisms/HeaderMain";
 import { CategoryNav } from "@/components/organisms/CategoryNav";
+import { isMemberOnlyPath } from "@/features/auth/model/MemberPath";
+import { useMemberSession } from "@/features/auth/model/MemberSession";
 import { searchProductSuggestionList } from "@/features/product/api/GetHomeProductList";
 import { CATEGORY_LIST, formatUsd, getCategoryHref } from "@/features/product/model/Product";
 import { LOCALE_LIST, translate, type LocaleId } from "@/shared/config/Locale";
@@ -18,8 +21,37 @@ export function usePageLocale(): LocaleId {
 
 type MainTemplateProps = {
     children: ReactNode;
-    account?: "member" | "guest";
 };
+
+function MemberAccessGate({ children }: { children: ReactNode }) {
+    const pathname = usePathname();
+    const router = useRouter();
+    const { member } = useMemberSession();
+    const memberOnly = isMemberOnlyPath(pathname);
+
+    if (memberOnly && !member) {
+        return (
+            <LoginRequiredDialog
+                message="로그인이 필요한 서비스입니다."
+                cancelLabel="취소"
+                confirmLabel="확인"
+                onCancel={() => {
+                    if (window.history.length > 1) {
+                        router.back();
+                        return;
+                    }
+
+                    router.push("/");
+                }}
+                onConfirm={() => {
+                    router.push(`/login?next=${encodeURIComponent(pathname)}`);
+                }}
+            />
+        );
+    }
+
+    return children;
+}
 
 function CategoryLinks({ label, pathname }: { label: string; pathname?: string }) {
     return (
@@ -40,8 +72,9 @@ function CurrentCategoryLinks({ label }: { label: string }) {
     return <CategoryLinks label={label} pathname={pathname} />;
 }
 
-export function MainTemplate({ children, account = "member" }: MainTemplateProps) {
+export function MainTemplate({ children }: MainTemplateProps) {
     const router = useRouter();
+    const { member, logout } = useMemberSession();
     const [locale, setLocale] = useState<LocaleId>("ko");
     const [query, setQuery] = useState("");
     const [suggestionsOpen, setSuggestionsOpen] = useState(false);
@@ -71,28 +104,32 @@ export function MainTemplate({ children, account = "member" }: MainTemplateProps
         router.push(`/products/${productId}`);
     }
 
-    const accountActions: HeaderAccountActions =
-        account === "guest"
-            ? {
-                  account: "guest",
-                  loginHref: "/login",
-                  loginLabel: translate(locale, "login"),
-                  signupHref: "/signup",
-                  signupLabel: translate(locale, "signup"),
-              }
-            : {
-                  account: "member",
-                  sellHref: "/sell",
-                  sellLabel: translate(locale, "sell"),
-                  notificationLabel: translate(locale, "notification"),
-                  notificationCount: 3,
-                  notificationHref: "/mypage/notifications",
-                  chatLabel: translate(locale, "chat"),
-                  chatCount: 7,
-                  chatHref: "/chat",
-                  userName: "김스파크",
-                  onUserMenuClick: () => router.push("/mypage"),
-              };
+    const accountActions: HeaderAccountActions = member
+        ? {
+              account: "member",
+              sellHref: "/sell",
+              sellLabel: translate(locale, "sell"),
+              notificationLabel: translate(locale, "notification"),
+              notificationCount: 3,
+              notificationHref: "/mypage/notifications",
+              chatLabel: translate(locale, "chat"),
+              chatCount: 7,
+              chatHref: "/chat",
+              userName: member.name,
+              onUserMenuClick: () => router.push("/mypage"),
+              logoutLabel: translate(locale, "logout"),
+              onLogout: () => {
+                  logout();
+                  router.push("/");
+              },
+          }
+        : {
+              account: "guest",
+              loginHref: "/login",
+              loginLabel: translate(locale, "login"),
+              signupHref: "/signup",
+              signupLabel: translate(locale, "signup"),
+          };
 
     return (
         <PageLocaleContext.Provider value={locale}>
@@ -130,7 +167,9 @@ export function MainTemplate({ children, account = "member" }: MainTemplateProps
                     }
                 />
                 <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-16 px-4 pb-20 sm:px-6">
-                    {children}
+                    <Suspense fallback={children}>
+                        <MemberAccessGate>{children}</MemberAccessGate>
+                    </Suspense>
                 </main>
                 <Footer
                     description={translate(locale, "footerTagline")}
