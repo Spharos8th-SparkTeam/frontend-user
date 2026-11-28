@@ -10,7 +10,12 @@ import { CategoryNav } from "@/components/organisms/CategoryNav";
 import { isMemberOnlyPath } from "@/features/auth/model/MemberPath";
 import { useMemberSession } from "@/features/auth/model/MemberSession";
 import { searchProductSuggestionList } from "@/features/product/api/GetHomeProductList";
-import { CATEGORY_LIST, formatUsd, getCategoryHref } from "@/features/product/model/Product";
+import {
+    CATEGORY_ALL_SLUG,
+    CATEGORY_LIST,
+    formatUsd,
+    getCategoryHref,
+} from "@/features/product/model/Product";
 import { LOCALE_LIST, translate, type LocaleId } from "@/shared/config/Locale";
 
 const PageLocaleContext = createContext<LocaleId>("ko");
@@ -57,11 +62,18 @@ function CategoryLinks({ label, pathname }: { label: string; pathname?: string }
     return (
         <CategoryNav
             label={label}
-            categories={CATEGORY_LIST.map((category) => {
-                const href = getCategoryHref(category.label);
+            categories={[
+                {
+                    href: `/c/${CATEGORY_ALL_SLUG}`,
+                    label: "전체 상품",
+                    current: pathname === `/c/${CATEGORY_ALL_SLUG}`,
+                },
+                ...CATEGORY_LIST.map((category) => {
+                    const href = getCategoryHref(category.label);
 
-                return { href, label: category.label, current: pathname === href };
-            })}
+                    return { href, label: category.label, current: pathname === href };
+                }),
+            ]}
         />
     );
 }
