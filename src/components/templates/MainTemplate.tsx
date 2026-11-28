@@ -4,6 +4,7 @@ import { createContext, Suspense, useContext, useMemo, useState, type ReactNode 
 import { usePathname, useRouter } from "next/navigation";
 import { Footer } from "@/components/organisms/Footer";
 import { Header } from "@/components/organisms/Header";
+import type { HeaderAccountActions } from "@/components/organisms/HeaderMain";
 import { CategoryNav } from "@/components/organisms/CategoryNav";
 import { searchProductSuggestionList } from "@/features/product/api/GetHomeProductList";
 import { CATEGORY_LIST, formatUsd, getCategoryHref } from "@/features/product/model/Product";
@@ -17,6 +18,7 @@ export function usePageLocale(): LocaleId {
 
 type MainTemplateProps = {
     children: ReactNode;
+    account?: "member" | "guest";
 };
 
 function CategoryLinks({ label, pathname }: { label: string; pathname?: string }) {
@@ -38,7 +40,7 @@ function CurrentCategoryLinks({ label }: { label: string }) {
     return <CategoryLinks label={label} pathname={pathname} />;
 }
 
-export function MainTemplate({ children }: MainTemplateProps) {
+export function MainTemplate({ children, account = "member" }: MainTemplateProps) {
     const router = useRouter();
     const [locale, setLocale] = useState<LocaleId>("ko");
     const [query, setQuery] = useState("");
@@ -69,6 +71,29 @@ export function MainTemplate({ children }: MainTemplateProps) {
         router.push(`/products/${productId}`);
     }
 
+    const accountActions: HeaderAccountActions =
+        account === "guest"
+            ? {
+                  account: "guest",
+                  loginHref: "/login",
+                  loginLabel: translate(locale, "login"),
+                  signupHref: "/signup",
+                  signupLabel: translate(locale, "signup"),
+              }
+            : {
+                  account: "member",
+                  sellHref: "/sell",
+                  sellLabel: translate(locale, "sell"),
+                  notificationLabel: translate(locale, "notification"),
+                  notificationCount: 3,
+                  notificationHref: "/mypage/notifications",
+                  chatLabel: translate(locale, "chat"),
+                  chatCount: 7,
+                  chatHref: "/chat",
+                  userName: "김스파크",
+                  onUserMenuClick: () => router.push("/mypage"),
+              };
+
     return (
         <PageLocaleContext.Provider value={locale}>
             <div className="flex min-h-full flex-col bg-[#FFF9F4] text-[#1C1917]">
@@ -87,16 +112,7 @@ export function MainTemplate({ children }: MainTemplateProps) {
                     suggestionsOpen={suggestionsOpen}
                     suggestionEmptyLabel={translate(locale, "empty")}
                     onSelectSuggestion={selectSuggestion}
-                    sellHref="/sell"
-                    sellLabel={translate(locale, "sell")}
-                    notificationLabel={translate(locale, "notification")}
-                    notificationCount={3}
-                    notificationHref="/mypage/notifications"
-                    chatLabel={translate(locale, "chat")}
-                    chatCount={7}
-                    chatHref="/chat"
-                    userName="김스파크"
-                    onUserMenuClick={() => router.push("/mypage")}
+                    accountActions={accountActions}
                     languageId="home-language"
                     languageLabel={translate(locale, "language")}
                     language={locale}

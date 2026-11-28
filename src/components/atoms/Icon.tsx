@@ -1,6 +1,7 @@
 import {
     Bell,
     Bold,
+    Check,
     ChevronRight,
     Globe,
     Heart,
@@ -16,6 +17,7 @@ import {
 } from "lucide-react";
 
 const ICON_MAP = {
+    check: Check,
     search: Search,
     bell: Bell,
     chat: MessageCircle,
