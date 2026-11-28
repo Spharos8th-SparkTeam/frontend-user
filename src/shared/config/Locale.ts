@@ -13,6 +13,7 @@ type MessageKey =
     | "sell"
     | "login"
     | "signup"
+    | "logout"
     | "notification"
     | "chat"
     | "language"
@@ -52,6 +53,7 @@ const MESSAGE_MAP: Record<LocaleId, Record<MessageKey, string>> = {
         sell: "판매하기",
         login: "로그인",
         signup: "회원가입",
+        logout: "로그아웃",
         notification: "알림",
         chat: "채팅",
         language: "언어",

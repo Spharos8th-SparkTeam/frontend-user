@@ -38,6 +38,8 @@ export type MemberHeaderActions = {
     chatHref: string;
     userName: string;
     onUserMenuClick?: () => void;
+    logoutLabel: string;
+    onLogout: () => void;
 };
 
 export type GuestHeaderActions = {
@@ -92,7 +94,7 @@ export function HeaderMain({
                 <div className="hidden min-w-0 max-w-xl flex-1 xl:block">
                     <SearchForm id={desktopSearchId} {...searchFormProps} />
                 </div>
-                <div className="ml-auto flex items-center gap-3">
+                <div className="ml-auto flex items-center gap-1">
                     {accountActions.account === "guest" ? (
                         <>
                             <Button href={accountActions.loginHref} variant="ghost">
@@ -124,6 +126,9 @@ export function HeaderMain({
                                 name={accountActions.userName}
                                 onClick={accountActions.onUserMenuClick}
                             />
+                            <Button variant="ghost" onClick={accountActions.onLogout}>
+                                {accountActions.logoutLabel}
+                            </Button>
                         </>
                     )}
                     <LanguageSelect
