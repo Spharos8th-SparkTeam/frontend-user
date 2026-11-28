@@ -10,11 +10,13 @@ import {
     getVisibleLikeCount,
 } from "@/features/product/api/GetHomeProductList";
 import {
+    CATEGORY_ALL_SLUG,
     SALE_STATUS,
     formatUsd,
     type Product,
     type SaleStatus,
 } from "@/features/product/model/Product";
+import { CATEGORY_SORT } from "@/features/product/api/GetCategoryProductList";
 import { translate, type LocaleId } from "@/shared/config/Locale";
 import type { SaleBadgeStatus } from "@/components/atoms/Badge";
 
@@ -65,7 +67,7 @@ export function HomePage({ products }: HomePageProps) {
             <ProductSection
                 title={translate(locale, "popularTitle")}
                 description={translate(locale, "popularLede")}
-                href="/products/popular"
+                href={`/c/${CATEGORY_ALL_SLUG}?sort=${CATEGORY_SORT.LIKES}`}
                 actionLabel={translate(locale, "viewAll")}
                 emptyLabel={translate(locale, "emptyProducts")}
                 products={popularProducts}
@@ -74,7 +76,7 @@ export function HomePage({ products }: HomePageProps) {
             <ProductSection
                 title={translate(locale, "newTitle")}
                 description={translate(locale, "newLede")}
-                href="/products/new"
+                href={`/c/${CATEGORY_ALL_SLUG}?sort=${CATEGORY_SORT.NEW}`}
                 actionLabel={translate(locale, "viewAll")}
                 emptyLabel={translate(locale, "emptyProducts")}
                 products={newProducts}

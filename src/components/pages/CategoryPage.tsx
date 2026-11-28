@@ -1,7 +1,6 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
 import type { SaleBadgeStatus } from "@/components/atoms/Badge";
 import type { ProductSectionItem } from "@/components/organisms/ProductSection";
 import { CategoryTemplate } from "@/components/templates/CategoryTemplate";
@@ -16,7 +15,6 @@ import {
 import { getVisibleLikeCount } from "@/features/product/api/GetHomeProductList";
 import {
     CATEGORY_ALL_SLUG,
-    CATEGORY_LIST,
     SALE_STATUS,
     formatUsd,
     type Product,
@@ -43,6 +41,7 @@ type CategoryPageProps = {
     slug: string;
     label: string;
     products: Product[];
+    initialSort?: CategorySort;
 };
 
 function readPriceBound(value: string): number | undefined {
@@ -89,8 +88,12 @@ function toCatalogItem(
     };
 }
 
-export function CategoryPage({ slug, label, products }: CategoryPageProps) {
-    const router = useRouter();
+export function CategoryPage({
+    slug,
+    label,
+    products,
+    initialSort = CATEGORY_SORT.NEW,
+}: CategoryPageProps) {
     const locale = usePageLocale();
     const [country, setCountry] = useState(CATEGORY_FILTER_ALL);
     const [status, setStatus] = useState(CATEGORY_FILTER_ALL);
@@ -98,7 +101,7 @@ export function CategoryPage({ slug, label, products }: CategoryPageProps) {
     const [maxPrice, setMaxPrice] = useState("");
     const [appliedMinPrice, setAppliedMinPrice] = useState("");
     const [appliedMaxPrice, setAppliedMaxPrice] = useState("");
-    const [sort, setSort] = useState<CategorySort>(CATEGORY_SORT.NEW);
+    const [sort, setSort] = useState<CategorySort>(initialSort);
     const [page, setPage] = useState(1);
     const [wishedIdList, setWishedIdList] = useState<string[]>([]);
     const wishedIds = useMemo(() => new Set(wishedIdList), [wishedIdList]);
@@ -122,14 +125,6 @@ export function CategoryPage({ slug, label, products }: CategoryPageProps) {
         (currentPage - 1) * CATEGORY_PAGE_SIZE,
         currentPage * CATEGORY_PAGE_SIZE,
     );
-
-    function changeCategory(nextSlug: string) {
-        if (nextSlug === slug) {
-            return;
-        }
-
-        router.push(`/c/${nextSlug}`);
-    }
 
     function changeCountry(nextCountry: string) {
         setCountry(nextCountry);
@@ -174,27 +169,13 @@ export function CategoryPage({ slug, label, products }: CategoryPageProps) {
     return (
         <CategoryTemplate
             intro={{
-                title: "상품 목록",
+                title: slug === CATEGORY_ALL_SLUG ? "전체 상품" : "상품 목록",
                 description: "원하는 상품을 찾아보세요.",
             }}
             filter={{
                 title: "상세 검색",
                 resetLabel: "필터 초기화",
                 onReset: resetFilters,
-                ...(slug === CATEGORY_ALL_SLUG
-                    ? {
-                          categoryLabel: "카테고리",
-                          category: slug,
-                          categoryOptions: [
-                              { value: CATEGORY_ALL_SLUG, label: "전체" },
-                              ...CATEGORY_LIST.map((item) => ({
-                                  value: item.slug,
-                                  label: item.label,
-                              })),
-                          ],
-                          onCategoryChange: changeCategory,
-                      }
-                    : {}),
                 countryLabel: "국가",
                 country,
                 countryOptions: [
