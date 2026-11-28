@@ -6,7 +6,7 @@ import { SearchForm, type SearchSuggestion } from "@/components/molecules/Search
 import { UserMenuButton } from "@/components/molecules/UserMenuButton";
 import type { SelectOption } from "@/components/atoms/Select";
 
-type HeaderMainProps = {
+type HeaderMainBaseProps = {
     searchLabel: string;
     searchValue: string;
     searchPlaceholder?: string;
@@ -18,6 +18,15 @@ type HeaderMainProps = {
     suggestionsOpen?: boolean;
     suggestionEmptyLabel?: string;
     onSelectSuggestion?: (id: string) => void;
+    languageId: string;
+    languageLabel: string;
+    language: string;
+    languageOptions: SelectOption[];
+    onLanguageChange: (value: string) => void;
+};
+
+export type MemberHeaderActions = {
+    account: "member";
     sellHref: string;
     sellLabel: string;
     notificationLabel: string;
@@ -29,11 +38,20 @@ type HeaderMainProps = {
     chatHref: string;
     userName: string;
     onUserMenuClick?: () => void;
-    languageId: string;
-    languageLabel: string;
-    language: string;
-    languageOptions: SelectOption[];
-    onLanguageChange: (value: string) => void;
+};
+
+export type GuestHeaderActions = {
+    account: "guest";
+    loginHref: string;
+    loginLabel: string;
+    signupHref: string;
+    signupLabel: string;
+};
+
+export type HeaderAccountActions = MemberHeaderActions | GuestHeaderActions;
+
+type HeaderMainProps = HeaderMainBaseProps & {
+    accountActions: HeaderAccountActions;
 };
 
 export function HeaderMain({
@@ -48,17 +66,7 @@ export function HeaderMain({
     suggestionsOpen,
     suggestionEmptyLabel,
     onSelectSuggestion,
-    sellHref,
-    sellLabel,
-    notificationLabel,
-    notificationCount,
-    notificationHref,
-    onNotificationClick,
-    chatLabel,
-    chatCount,
-    chatHref,
-    userName,
-    onUserMenuClick,
+    accountActions,
     languageId,
     languageLabel,
     language,
@@ -84,22 +92,40 @@ export function HeaderMain({
                 <div className="hidden min-w-0 max-w-xl flex-1 xl:block">
                     <SearchForm id={desktopSearchId} {...searchFormProps} />
                 </div>
-                <div className="ml-auto flex items-center gap-1">
-                    <Button href={sellHref}>{sellLabel}</Button>
-                    <IconButtonWithBadge
-                        icon="bell"
-                        count={notificationCount}
-                        label={notificationLabel}
-                        href={notificationHref}
-                        onClick={onNotificationClick}
-                    />
-                    <IconButtonWithBadge
-                        icon="chat"
-                        count={chatCount}
-                        label={chatLabel}
-                        href={chatHref}
-                    />
-                    <UserMenuButton name={userName} onClick={onUserMenuClick} />
+                <div className="ml-auto flex items-center gap-3">
+                    {accountActions.account === "guest" ? (
+                        <>
+                            <Button href={accountActions.loginHref} variant="ghost">
+                                {accountActions.loginLabel}
+                            </Button>
+                            <Button href={accountActions.signupHref}>
+                                {accountActions.signupLabel}
+                            </Button>
+                        </>
+                    ) : (
+                        <>
+                            <Button href={accountActions.sellHref}>
+                                {accountActions.sellLabel}
+                            </Button>
+                            <IconButtonWithBadge
+                                icon="bell"
+                                count={accountActions.notificationCount}
+                                label={accountActions.notificationLabel}
+                                href={accountActions.notificationHref}
+                                onClick={accountActions.onNotificationClick}
+                            />
+                            <IconButtonWithBadge
+                                icon="chat"
+                                count={accountActions.chatCount}
+                                label={accountActions.chatLabel}
+                                href={accountActions.chatHref}
+                            />
+                            <UserMenuButton
+                                name={accountActions.userName}
+                                onClick={accountActions.onUserMenuClick}
+                            />
+                        </>
+                    )}
                     <LanguageSelect
                         id={languageId}
                         label={languageLabel}

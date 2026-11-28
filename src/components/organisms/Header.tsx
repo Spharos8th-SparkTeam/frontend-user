@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { HeaderMain } from "@/components/organisms/HeaderMain";
+import { HeaderMain, type HeaderAccountActions } from "@/components/organisms/HeaderMain";
 import type { SelectOption } from "@/components/atoms/Select";
 import type { SearchSuggestion } from "@/components/molecules/SearchForm";
 
@@ -15,17 +15,7 @@ type HeaderProps = {
     suggestionsOpen?: boolean;
     suggestionEmptyLabel?: string;
     onSelectSuggestion?: (id: string) => void;
-    sellHref: string;
-    sellLabel: string;
-    notificationLabel: string;
-    notificationCount: number;
-    notificationHref?: string;
-    onNotificationClick?: () => void;
-    chatLabel: string;
-    chatCount: number;
-    chatHref: string;
-    userName: string;
-    onUserMenuClick?: () => void;
+    accountActions: HeaderAccountActions;
     languageId: string;
     languageLabel: string;
     language: string;

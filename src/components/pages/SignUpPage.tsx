@@ -206,12 +206,13 @@ export function SignUpPage() {
     return (
         <SignUpTemplate
             intro={{
-                title: "Spark에 가입하기",
+                title: "ReSpark에 가입하기",
                 description: "이메일과 비밀번호만 있으면 돼요. 닉네임은 자동으로 만들어집니다.",
             }}
             form={{
                 emailLabel: "이메일",
                 email,
+                emailPlaceholder: "example@example.com",
                 emailHint,
                 sendCodeLabel: "인증번호 발송",
                 onEmailChange: changeEmail,

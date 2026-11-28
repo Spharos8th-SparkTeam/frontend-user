@@ -32,11 +32,13 @@
 src/
 ├── app/
 │   ├── layout.tsx
-│   └── (main)/
-│       ├── layout.tsx
-│       ├── page.tsx          # 메인
-│       ├── c/[slug]/page.tsx # 상품 목록
-│       ├── sell/page.tsx     # 상품 등록
+│   ├── (main)/
+│   │   ├── layout.tsx
+│   │   ├── page.tsx          # 메인
+│   │   ├── c/[slug]/page.tsx # 상품 목록
+│   │   └── sell/page.tsx     # 상품 등록
+│   └── (guest)/
+│       ├── layout.tsx        # 비회원 헤더
 │       └── signup/page.tsx   # 회원가입
 ├── components/
 │   ├── atoms/

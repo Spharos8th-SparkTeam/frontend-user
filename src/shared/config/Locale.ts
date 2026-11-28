@@ -11,6 +11,8 @@ type MessageKey =
     | "searchPlaceholder"
     | "empty"
     | "sell"
+    | "login"
+    | "signup"
     | "notification"
     | "chat"
     | "language"
@@ -48,6 +50,8 @@ const MESSAGE_MAP: Record<LocaleId, Record<MessageKey, string>> = {
         searchPlaceholder: "상품명을 검색해보세요",
         empty: "찾는 매물이 없어요.",
         sell: "판매하기",
+        login: "로그인",
+        signup: "회원가입",
         notification: "알림",
         chat: "채팅",
         language: "언어",

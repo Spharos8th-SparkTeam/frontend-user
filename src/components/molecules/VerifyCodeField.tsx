@@ -31,7 +31,7 @@ export function VerifyCodeField({
 }: VerifyCodeFieldProps) {
     return (
         <FormField id={id} label={label} required={required} hint={hint}>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-4">
                 <Input
                     id={id}
                     variant="field"

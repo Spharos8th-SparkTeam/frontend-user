@@ -28,7 +28,7 @@ export function AgreementField({
                 <button
                     type="button"
                     onClick={onView}
-                    className="shrink-0 text-sm font-medium text-[#BA5847] hover:text-[#D47B68]"
+                    className="shrink-0 text-xs font-medium text-[#BA5847] hover:text-[#D47B68]"
                 >
                     {viewLabel}
                 </button>

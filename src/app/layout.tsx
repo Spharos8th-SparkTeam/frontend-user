@@ -10,7 +10,7 @@ const notoSans = Noto_Sans_KR({
 
 export const metadata: Metadata = {
     title: "ReSpark",
-    description: "작고 귀여운 것들의, 커다란 취향 세계.",
+    description: "글로벌 완구 거래 플랫폼",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
