@@ -100,7 +100,7 @@ export function HeaderMain({
                             <Button href={accountActions.loginHref} variant="ghost">
                                 {accountActions.loginLabel}
                             </Button>
-                            <Button href={accountActions.signupHref}>
+                            <Button href={accountActions.signupHref} className="mr-2">
                                 {accountActions.signupLabel}
                             </Button>
                         </>
