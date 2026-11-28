@@ -4,7 +4,7 @@ import { Text } from "@/components/atoms/Text";
 import { AgreementField } from "@/components/molecules/AgreementField";
 import type { SignUpAgreement } from "@/components/organisms/SignUpForm";
 
-type SocialTermsDialogProps = {
+export type SocialTermsDialogProps = {
     open: boolean;
     title: string;
     description: string;
