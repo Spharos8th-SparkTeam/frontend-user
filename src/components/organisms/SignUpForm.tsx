@@ -24,6 +24,7 @@ export type SignUpFormProps = {
     emailLabel: string;
     email: string;
     emailPlaceholder?: string;
+    emailHint?: string;
     sendCodeLabel: string;
     onEmailChange: (value: string) => void;
     onSendCode: () => void;
@@ -45,6 +46,7 @@ export type SignUpFormProps = {
     passwordConfirmHint?: string;
     onPasswordConfirmChange: (value: string) => void;
     agreements: SignUpAgreement[];
+    notice?: string;
     submitLabel: string;
     onSubmit: () => void;
     accountLabel: string;
@@ -60,6 +62,7 @@ export function SignUpForm({
     emailLabel,
     email,
     emailPlaceholder,
+    emailHint,
     sendCodeLabel,
     onEmailChange,
     onSendCode,
@@ -81,6 +84,7 @@ export function SignUpForm({
     passwordConfirmHint,
     onPasswordConfirmChange,
     agreements,
+    notice,
     submitLabel,
     onSubmit,
     accountLabel,
@@ -109,6 +113,7 @@ export function SignUpForm({
                 type="email"
                 value={email}
                 placeholder={emailPlaceholder}
+                hint={emailHint}
                 actionLabel={sendCodeLabel}
                 required
                 onChange={onEmailChange}
@@ -165,6 +170,7 @@ export function SignUpForm({
                     />
                 ))}
             </div>
+            {notice ? <p className="text-sm text-[#BA5847]">{notice}</p> : null}
             <Button variant="accent" type="submit" className="w-full">
                 {submitLabel}
             </Button>
